@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Detection System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        #status {
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .no-fire {
+            background-color: #4caf50;
+            color: white;
+        }
+        .fire-detected {
+            background-color: #f44336;
+            color: white;
+        }
+        #fireTime, #extinguishTime, #efficiency {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fire Detection System</h1>
+
+    <!-- إضافة صورة تعبر عن النظام -->
+    <img src="https://pejout-marine-services.fr/wp-content/uploads/2022/07/detecteur.jpg" alt="Fire Detection System Image">
+
+    <div id="status" class="no-fire">Status: No fire detected</div>
+    <div id="fireTime"></div>
+    <div id="extinguishTime"></div>
+    <div id="efficiency"></div>
+
+    <script>
+        let fireDetectedTime = null;
+        let fireExtinguishedTime = null;
+
+        function updateStatus(fireDetected) {
+            const statusDiv = document.getElementById('status');
+            const fireTimeDiv = document.getElementById('fireTime');
+            const extinguishTimeDiv = document.getElementById('extinguishTime');
+            const efficiencyDiv = document.getElementById('efficiency');
+
+            if (fireDetected) {
+                fireDetectedTime = new Date();
+                statusDiv.textContent = 'Status: Fire detected!';
+                statusDiv.className = 'fire-detected';
+                fireTimeDiv.textContent = 'Fire detected at: ' + fireDetectedTime.toLocaleTimeString();
+            } else if (fireDetectedTime) {
+                fireExtinguishedTime = new Date();
+                statusDiv.textContent = 'Status: Fire extinguished';
+                statusDiv.className = 'no-fire';
+                extinguishTimeDiv.textContent = 'Fire extinguished at: ' + fireExtinguishedTime.toLocaleTimeString();
+
+                const timeToExtinguish = (fireExtinguishedTime - fireDetectedTime) / 1000; // in seconds
+                efficiencyDiv.textContent = 'Time to extinguish fire: ' + timeToExtinguish + ' seconds';
+            } else {
+                statusDiv.textContent = 'Status: No fire detected';
+                statusDiv.className = 'no-fire';
+            }
+        }
+
+        // هنا يمكنك كتابة كود لاستقبال البيانات من Arduino واستخدام updateStatus(fireDetected)
+        // على سبيل المثال، إذا كان لديك خادم ويب يستقبل بيانات من Arduino، يمكنك استخدام fetch أو WebSocket
+    </script>
+</body>
+</html>
